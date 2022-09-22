@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FitNotes2Fit</title>
+</head>
+<body>
+    <h1>FitNotes2Fit Converter</h1>
+    <h3>Upload your spreadsheet of workouts exported from the FitNotes app, and convert them into ready to upload to Garmin .fit binary files.</h3>
+    <hr/>
+    <p>Currently supported exercises, as listed in the FitNotes app.</p>
+    <ul>
+        {#for exercise in exercises}
+            <li>{exercise}</li>
+        {/for}
+    </ul>
+</body>
+</html>
