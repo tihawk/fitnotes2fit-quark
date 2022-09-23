@@ -33,7 +33,8 @@ public class ConvertResource {
     @Path("/convert")
     public Response convert(@MultipartForm MultipartFormDataInput data) {
         Response.ResponseBuilder response = Response.ok();
-        String message = convertService.convert(data);
-        return response.status(201).entity(message).build();
+        byte[] entity = convertService.convert(data);
+        response.header("Content-Disposition", "attachment;filename=fitFiles.zip");
+        return response.status(201).entity(entity).build();
     }
 }

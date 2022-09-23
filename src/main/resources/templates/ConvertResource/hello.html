@@ -14,5 +14,12 @@
             <li>{exercise}</li>
         {/for}
     </ul>
+    <form action="/convert" method="post" enctype='multipart/form-data'>
+        <label for="fitnotes">Select FitNotes spreadsheet file:</label>
+        <input type="file"
+               id="fitnotes" name="file"
+               accept="text/csv">
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
