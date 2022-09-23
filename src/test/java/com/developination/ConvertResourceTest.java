@@ -12,10 +12,10 @@ public class ConvertResourceTest {
     @Test
     public void testHelloEndpoint() {
         given()
-          .when().get("/hello")
+          .when().get("/index")
           .then()
-             .statusCode(200)
-             .body(is("Hello from RESTEasy Reactive"));
+             .statusCode(200);
+//             .body(is("Hello from RESTEasy Reactive"));
     }
 
 }
