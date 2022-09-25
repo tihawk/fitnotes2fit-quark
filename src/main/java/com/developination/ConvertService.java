@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -32,6 +33,10 @@ public class ConvertService {
         if (inputParts == null || inputParts.isEmpty()) {
             return "No file".getBytes(StandardCharsets.UTF_8);
         }
+        String heartRateCandidate = getInputPartData(input, "heartRate");
+        short heartRate = heartRateCandidate != null ? Short.parseShort(heartRateCandidate) : (short) 0;
+        String restTimeCandidate = getInputPartData(input, "restTime");
+        float restTime = restTimeCandidate != null ? Float.parseFloat(restTimeCandidate) : 0F;
         String fileName = null;
         String mimeType = null;
         String message = null;
@@ -47,10 +52,11 @@ public class ConvertService {
                 message = "[uploadFiles] Filename: " + fileName + "; MimeType: " + mimeType;
                 logger.debug(message);
 
+
                 byte[] content = inputStream.readAllBytes();
                 List<Activity> activities = FitNotesParser.parseFileNotesIntoActivities(content);
                 for (Activity activity: activities) {
-                    ActivityEncoder activityEncoder = new ActivityEncoder(activity, (short) 0, 0);
+                    ActivityEncoder activityEncoder = new ActivityEncoder(activity, heartRate, restTime);
                     logger.debug(activity.getActivityName());
                     activityEncoder.encodeActivity("");
                     Path path = Paths.get(activity.getActivityName() + ".fit");
@@ -66,6 +72,23 @@ public class ConvertService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String getInputPartData(MultipartFormDataInput input, String inputPartName) {
+        String result = null;
+        Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
+        List<InputPart> inputParts = uploadForm.get(inputPartName);
+        if (inputParts == null || inputParts.isEmpty()) {
+            return null;
+        }
+        for (InputPart inputPart : inputParts) {
+            try {
+                result = inputPart.getBodyAsString();
+            } catch (IOException e) {
+                logger.error(e.getMessage());
+            }
+        }
+        return result;
     }
 
     private String getFileName(MultivaluedMap<String, String> header) {
