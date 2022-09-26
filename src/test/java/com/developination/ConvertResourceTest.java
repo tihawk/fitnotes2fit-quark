@@ -4,6 +4,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.containsStringIgnoringCase;
 import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
@@ -12,10 +13,10 @@ public class ConvertResourceTest {
     @Test
     public void testHelloEndpoint() {
         given()
-          .when().get("/index")
+          .when().get("")
           .then()
-             .statusCode(200);
-//             .body(is("Hello from RESTEasy Reactive"));
+             .statusCode(200)
+             .body(containsStringIgnoringCase("fitnotes2fit"));
     }
 
 }

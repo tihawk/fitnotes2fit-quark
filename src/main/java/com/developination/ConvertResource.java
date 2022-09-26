@@ -22,7 +22,7 @@ public class ConvertResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    @Path("/index")
+    @Path("")
     public TemplateInstance hello() {
         return Templates.hello(FitNotesParser.EXERCISE_TO_FIT_CATEGORY_MAP.keySet().toArray());
     }
