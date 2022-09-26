@@ -1,0 +1,14 @@
+[Unit]
+Description=fitnotes2fit quarkus service
+After=network.target
+StartLimiIntercalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/usr/bin/java -jar <absolute path>/fitnotes2fit-quark/target/quarkus-app/quarkus-run.jar
+User=<user>
+
+[Install]
+WantedBy=multi-user.target
